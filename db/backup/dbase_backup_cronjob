@@ -1,0 +1,1 @@
+30 2 * * * bash /media/webgis/GIS_REPOSITORY/Dropbox/DBASE_BACKUPS/perform_backup >/dev/null 2>&1

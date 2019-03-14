@@ -1,0 +1,11 @@
+/* TEAM */
+
+Lead Developer:Aaron Iemma
+Contact: corylabiosphere [at] gmail.com
+From:Trento, Italy
+
+/* SITE */
+Language:Italian
+Doctype: HTML5
+Components: Zurb Foundation, jQuery, Django, Wagtail CMS 
+Software: Sublime Text, Ubuntu 18.04

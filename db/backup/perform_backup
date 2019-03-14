@@ -1,0 +1,101 @@
+#!/bin/bash
+#############################################################################
+#
+# perform_backup.sh
+#
+# SCRIPT:   	perform_database_backup
+# AUTHOR(S):	Aaron Iemma - 02/08/2016
+# PURPOSE:  	Backups all databases from some server
+# LICENCE:		BEER-WARE
+#
+# ----------------------------------------------------------------------------
+#  "THE BEER-WARE LICENSE" (Revision 42):
+#  <wolfs.bleat@gmail.com> wrote this file. As long as you retain this notice, you
+#  can do whatever you want with this stuff. If we meet some day, and you think
+#  this stuff is worth it, you can buy me a beer in return. Aaron Iemma
+#  ----------------------------------------------------------------------------
+#
+#############################################################################
+
+MAIN_DIR="/media/$USER/WORKDRIVE1/BACKUPS/DBASE_BACKUPS"
+
+#DATABASES=("biosql" "orsi_pat" "palpi" "geoserver_zool")
+
+# reload: cat filename.gz | gunzip | psql dbname
+DATABASES=("biosql" "palpi" "geoserver_zool")
+TODAY="$(date +'%d_%m_%Y')"
+BASEDIR="$MAIN_DIR"/"MAIN_HOST"
+HOST='192.168.128.205'
+PORT='5433'
+
+for i in "${DATABASES[@]}"
+do
+	FILES=`find -type f -printf '%T+ %p\n' | sort | head -n 1`
+	FILE="$BASEDIR"/"$i"_"$TODAY"_backup.gz
+	echo "''''''''''''''''''''''"
+	echo "Perfoming backup of $i database..."
+	echo "''''''''''''''''''''''"
+	echo $FILE
+	pg_dump -h $HOST -p $PORT -U webgisvm $i | gzip > $FILE
+	echo "''''''''''''''''''''''"
+	echo "Backup of $i database ended."
+	echo "''''''''''''''''''''''"
+done
+
+DATABASES=("lifeten" "geonetwork")
+TODAY="$(date +'%d_%m_%Y')"
+BASEDIR="$MAIN_DIR"/"LIFETEN_HOST"
+HOST='192.168.128.190'
+PORT='5432'
+
+for i in "${DATABASES[@]}"
+do
+	FILE="$BASEDIR"/"$i"_"$TODAY"_backup.gz
+	echo "''''''''''''''''''''''"
+	echo "Perfoming backup of $i database..."
+	echo "''''''''''''''''''''''"
+	echo $FILE
+	pg_dump -h $HOST -p $PORT -U lifeten $i | gzip > $FILE
+	echo "''''''''''''''''''''''"
+	echo "Backup of $i database ended."
+	echo "''''''''''''''''''''''"
+done
+
+DATABASES=("geodbfree05")
+TODAY="$(date +'%d_%m_%Y')"
+BASEDIR="$MAIN_DIR"/"PAT"
+HOST='172.20.20.20'
+PORT='5432'
+
+for i in "${DATABASES[@]}"
+do
+	FILE="$BASEDIR"/"$i"_"$TODAY"_backup.gz
+	echo "''''''''''''''''''''''"
+	echo "Perfoming backup of $i database..."
+	echo "''''''''''''''''''''''"
+	echo $FILE
+	pg_dump -h $HOST -p $PORT -U mmirna89b11e730k -n carnivori $i | gzip > $FILE
+	echo "''''''''''''''''''''''"
+	echo "Backup of $i database ended."
+	echo "''''''''''''''''''''''"
+done
+
+DATABASES=("local" "meteo" "carnivori" "pns_sentieri" "prince" "wwf" "azioni")
+TODAY="$(date +'%d_%m_%Y')"
+BASEDIR="$MAIN_DIR"/"LOCAL"
+HOST='localhost'
+PORT='5432'
+
+for i in "${DATABASES[@]}"
+do
+	FILES=`find -type f -printf '%T+ %p\n' | sort | head -n 1`
+	FILE="$BASEDIR"/"$i"_"$TODAY"_backup.gz
+	echo "''''''''''''''''''''''"
+	echo "Perfoming backup of $i database..."
+	echo "''''''''''''''''''''''"
+	echo $FILE
+	pg_dump -h $HOST -p $PORT -U cifciaf $i | gzip > $FILE
+	echo "''''''''''''''''''''''"
+	echo "Backup of $i database ended."
+	echo "''''''''''''''''''''''"
+done

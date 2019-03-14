@@ -1,0 +1,28 @@
+#!/bin/bash
+#############################################################################
+#
+# perform_backup.sh
+#
+# SCRIPT:   	perform_database_backup
+# AUTHOR(S):	Aaron Iemma - 02/08/2016
+# PURPOSE:  	Restores databases from some .gz file
+# LICENCE:		BEER-WARE
+#
+# ----------------------------------------------------------------------------
+#  "THE BEER-WARE LICENSE" (Revision 42):
+#  <wolfs.bleat@gmail.com> wrote this file. As long as you retain this notice, you
+#  can do whatever you want with this stuff. If we meet some day, and you think
+#  this stuff is worth it, you can buy me a beer in return. $USER Iemma
+#  ----------------------------------------------------------------------------
+#
+#############################################################################
+
+# $1 filename
+# $2 dbname
+# $3 user
+# $4 port
+# $5 host
+
+dropdb -U $3 -p $4 -h $5 $2
+createdb -U $3 -p $4 -h $5 $2
+cat $1 | gunzip | psql -U $3 -p $4 -h $5 $2
